@@ -187,6 +187,28 @@
 
 <div class="post-preview">
 
+    <a href="/2021/09/10/缓存雪崩，穿透理解/">
+        <h2 class="post-title">
+            缓存雪崩，穿透理解
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            缓存异常处理缓存雪崩由于原有缓存失效，新缓存未设置成功期间（例如我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积缓存过期），所有原本应该访问缓存的请求都去查询数据库了，而对数据库CPU和内存造成巨大压力，严重会造成数据库宕机，从而形成一系列连锁反应，造成整个系统崩溃。
+缓存失效时的雪崩效应对底层系统的冲击非常可怕，大多数系统设计者考虑加锁或者队列的方式保证来不会有大量的线程对数据库一......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by epimetheusQ on
+        2021-09-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2021/09/10/kafka命令/">
         <h2 class="post-title">
             kafka命令
@@ -380,30 +402,6 @@ php原生包含两个参数，$argv 和 $argc.创建一个a.ph......
             isset 一般用来检测变量是否设置isset($a); 若$a 没有定义（var_dump时会报notice），返回false，或者 变量中的某个key没有setisset(null)； 返回 false
 若变量不存在，如:
 12345678$a[&#x27;c&#x27;] = 1;isset($a[&#x27;b&#x27;]); // 返回false// --------------......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by epimetheusQ on
-        2021-08-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2021/08/16/LNMP路径/">
-        <h2 class="post-title">
-            LNMP路径
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            查看 brew 安装列表1brew list
-
-123brew services start php@7.3 //利用 brew 启动 phpbrew services restart php@7.3 // 利用brew 重启 phpbrew services stop php@7.3 // 利用brew 关闭 php
-nginx1234sudo nginxsudo nginx -s rel......
         </div>
     </a>
     <p class="post-meta">

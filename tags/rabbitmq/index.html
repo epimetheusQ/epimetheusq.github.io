@@ -13,11 +13,11 @@
 
     <title>
         
-          macbook在docker中运行hyperf代码无法同步问题解决 - epimetheus的博客 | epimetheusQ&#39;s Blog
+          epimetheus的博客 | epimetheusQ&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/10/07/macbook在docker中运行hyperf代码无法同步问题解决/">
+    <link rel="canonical" href="http://example.com/tags/rabbitmq/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -150,116 +150,7 @@
 
 
     <!-- Main Content -->
-    
-<!-- Image to hack wechat -->
-<!-- <img src="http://example.com/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
-
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/img/home-bg.jpg')
-    }
-</style>
-<header class="intro-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                          <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
-                        
-                    </div>
-                    <h1>macbook在docker中运行hyperf代码无法同步问题解决</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        Posted by epimetheusQ on
-                        2021-10-07
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-    <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <h2 id="Mac在docker中运行hyperf代码无法同步问题解决"><a href="#Mac在docker中运行hyperf代码无法同步问题解决" class="headerlink" title="Mac在docker中运行hyperf代码无法同步问题解决"></a>Mac在docker中运行hyperf代码无法同步问题解决</h2><p>更换电脑，安装docker后，可以正常启动hyperf项目，但是一旦更新hyperf代码，docker容器内的代码却没有更新。</p>
-<p>通过查阅资料和多次尝试发现，是由于本地修改代码后，docker内部无法时时更新，进入容器，针对该项目执行：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 1. 进入docker容器中</span></span><br><span class="line">docker exec -it 539803d55274 /bin/bash </span><br><span class="line"><span class="section"># 2. 进入项目目录外，我的项目路径是 /data/project/purchase，项目外的路径是 /data/project</span></span><br><span class="line">cd /data/project</span><br><span class="line"><span class="section"># 3. 为该目录赋值权限</span></span><br><span class="line">chmod -R 777 purchase/</span><br></pre></td></tr></table></figure>
-
-<p>该代码就会同步到docker中，该方法只是临时解决方法，后期会考虑如何优化。</p>
-<h3 id="遗留问题解决"><a href="#遗留问题解决" class="headerlink" title="遗留问题解决"></a>遗留问题解决</h3><p>docker 中hyperf执行生成命令 php bin/hyperf.php gen:command XXXCommand，报错：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">There are no commands defined in the &quot;replaceDeliverySn&quot; namespace. </span><br></pre></td></tr></table></figure>
-
-<p>通过查询和尝试，发现还是缓存的问题，此时可以通过:</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php bin/hyperf.php </span><br></pre></td></tr></table></figure>
-<p>查看是否有该可以执行的命令，如果没有：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 重新生成缓存命令，新缓存会覆盖原目录</span></span><br><span class="line">vendor/bin/init-proxy.sh</span><br><span class="line"><span class="section"># 赋权限</span></span><br><span class="line">chmod -R 777 purchase</span><br></pre></td></tr></table></figure>
-
-<p>即可解决。</p>
-
-
-                <hr>
-
-                
-
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/2021/12/27/rabbitmq进阶之docker快速搭建rabbitmq/" data-toggle="tooltip" data-placement="top" title="rabbitmq进阶之docker快速搭建rabbitmq">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/2021/09/29/hyperf-docker基本启动命令实践/" data-toggle="tooltip" data-placement="top" title="hyperf.docker基本启动命令实践">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                
-
-                
-
-            </div>
-    <!-- Side Catalog Container -->
-        
-
-    <!-- Sidebar Container -->
-
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-
-                <!-- Friends Blog -->
-                
-            </div>
-
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-
+    <!-- Default Archive layout, we use archives instead. -->
 
     <!-- Footer -->
     <!-- Footer -->
