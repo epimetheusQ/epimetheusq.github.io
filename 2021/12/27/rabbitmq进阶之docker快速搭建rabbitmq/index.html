@@ -194,7 +194,27 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                
+                <h2 id="docker-安装-Rabbitmq"><a href="#docker-安装-Rabbitmq" class="headerlink" title="docker 安装 Rabbitmq"></a>docker 安装 Rabbitmq</h2><h3 id="查看仓库里的RabbitMQ"><a href="#查看仓库里的RabbitMQ" class="headerlink" title="查看仓库里的RabbitMQ"></a>查看仓库里的RabbitMQ</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search rabbitmq</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动rabbitmq"><a href="#启动rabbitmq" class="headerlink" title="启动rabbitmq"></a>启动rabbitmq</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname my-rabbit --name rabbit -p <span class="number">15672</span>:<span class="number">15672</span> -p <span class="number">5672</span>:<span class="number">5672</span> rabbitmq</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入rabbitmq容器内-启动监控台"><a href="#进入rabbitmq容器内-启动监控台" class="headerlink" title="进入rabbitmq容器内,启动监控台"></a>进入rabbitmq容器内,启动监控台</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment">// CONTAINER ID   IMAGE        COMMAND                  CREATED       STATUS       PORTS  NAMES</span></span><br><span class="line"><span class="comment">//6d40353262d6   rabbitmq     &quot;docker-entrypoint.s…&quot;   2 hours ago   Up 2 hours   4369/tcp, 0.0.0.0:5672-&gt;5672/tcp, :::5672-&gt;5672/tcp, 5671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672-&gt;15672/tcp, :::15672-&gt;15672/tcp              rabbit</span></span><br><span class="line">docker exec -it 镜像id /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动rabbitmq监控台</span></span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问监控台"><a href="#访问监控台" class="headerlink" title="访问监控台"></a>访问监控台</h3><p><a href="http://linuxip地址:15672，这里的用户名和密码默认都是guest">http://linuxip地址:15672，这里的用户名和密码默认都是guest</a></p>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>rabbitmq 默认不支持延时队列,故需要下载插件进行安装到容器内部, 安装流程如下:</p>
+<p>容器内需要使用wget,以及cp等linux命令,但是若容器内不包含该命令,可使用apt-get进行安装,流程如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将apt-get 更新到最新</span></span><br><span class="line">apt-get update</span><br><span class="line"><span class="comment">// 安装wget命令</span></span><br><span class="line">apt-get install wget</span><br><span class="line"><span class="comment">// 安装vim命令</span></span><br><span class="line">apt-get vim</span><br><span class="line"><span class="comment">// 安装cp命令</span></span><br><span class="line">apt-get cp</span><br></pre></td></tr></table></figure>
+
+<p>安装延时队列插件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下载拓展包</span></span><br><span class="line">wget https:<span class="comment">//github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/3.9.0/rabbitmq_delayed_message_exchange-3.9.0.ez</span></span><br><span class="line"></span><br><span class="line">cp rabbitmq_delayed_message_exchange<span class="number">-3.9</span><span class="number">.0</span>.ez /opt/rabbitmq/plugins/</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动插件</span></span><br><span class="line">rabbitmq-plugins enable rabbitmq_delayed_message_exchange</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>启动结果:</p>
+<p>Enabling plugins on node rabbit@my-rabbit:<br>rabbitmq_delayed_message_exchange<br>The following plugins have been configured:<br>  rabbitmq_delayed_message_exchange<br>  rabbitmq_management<br>  rabbitmq_management_agent<br>  rabbitmq_prometheus<br>  rabbitmq_web_dispatch<br>Applying plugin configuration to rabbit@my-rabbit…<br>The following plugins have been enabled:<br>  rabbitmq_delayed_message_exchange</p>
+<p>started 1 plugins.</p>
+<p>表示成功</p>
+<h3 id="封装dockerfile进行完善"><a href="#封装dockerfile进行完善" class="headerlink" title="封装dockerfile进行完善"></a>封装dockerfile进行完善</h3><p>待完善….</p>
+
 
                 <hr>
 
